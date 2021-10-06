@@ -1,0 +1,15 @@
+import pandas as pd 
+import matplotlib.pyplot as plt
+import folium
+#데이터 불러오기
+data = pd.read_csv("./data/경상남도 진주시_버스정류장_20210909.csv",encoding='cp949')
+data.head()
+bus_map = folium.Map(location=[35.18037168022242, 128.1087505644226], zoom_start=14) #진주시청 위치 기준 지도
+order=[]
+for i in range(0,1911):
+  order.append(i)
+for i in order:
+  folium.Marker([data['위도'][i], data['경도'][i]], 
+                popup=''.join((data['정류소명'][i], str(data['정류소아이디(ID)'][i]))), 
+                icon = folium.Icon(icon="bus", prefix='fa', color="green")).add_to(bus_map)
+bus_map
